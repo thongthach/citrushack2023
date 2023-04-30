@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TempBot</title>
+    <style>
+        body{
+            font-family:Arial, Helvetica, sans-serif;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height:100vh;
+            width:100%;
+        }
+        #main{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color:#eabfbf;
+            padding: 3em;
+            border-radius: 3em;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1>
+            TempBot
+        </h1>
+        <h2>
+            Current Temperature
+        </h2>
+        <h2 id="tempVal">
+
+        </h2>
+        <h2>
+            Current Distance to Wall
+        </h2>
+        <h2 id="distVal">
+
+        </h2>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        var settings = {
+        'cache': false,
+        'dataType': "jsonp",
+        "async": true,
+        "crossDomain": true,
+        "url": "https://maps.googleapis.com/maps/api/distancematrix/json?units ",
+        "method": "GET",
+        "headers": {
+        "accept": "application/json",
+        "Access-Control-Allow-Origin":"*"
+        }
+        }
+        $.ajax(settings).done(function (response) {
+        console.log(response);
+        });
+        var intervalID = window.setInterval(myCallback, 250);
+
+        function myCallback() {
+            $.get("http://34.16.128.85/api/Robot", function(data, status){
+                console.log(data[0]['value'].split(' '))
+                testVar = data[1]['value'].split(' ')
+                document.getElementById('distVal').innerHTML = data[0]['value'].split(' ')[6]
+                document.getElementById('tempVal').innerHTML = data[1]['value'].split(' ')[3]
+
+            });
+        }
+
+
+    </script>
+</body>
+</html>
